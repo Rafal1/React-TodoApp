@@ -4,7 +4,7 @@ import { combineReducers } from 'redux'
 // import xIsNext from './xIsNextReducer'
 
 export default combineReducers({
-    // history,
+    // todos,
     // stepNumber,
     // xIsNext
 })

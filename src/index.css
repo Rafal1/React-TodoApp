@@ -12,3 +12,43 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.mainAppClass {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.addNoteInput {
+  margin-top: 2em;
+
+}
+
+.setInRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.todosList {
+  /* margin-top: 2em; */
+
+}
+
+.todoContent {
+  max-width: 20em; 
+  max-width: 48ch;
+  /* overflow-wrap: break-word; */
+}
+
+.todoControlBox {
+  border-left: 2px solid #999;
+  padding-left: 1em;
+  margin-left: 1em;
+}
+
+.todoItem {
+  margin-top: 2em;
+}

@@ -1,3 +1,4 @@
 module.exports = {
-    typicodePlaceholderApiUrl : 'https://jsonplaceholder.typicode.com'
+    typicodePlaceholderApiUrl : 'https://jsonplaceholder.typicode.com',
+    maxTodosDisplay : 10
 }

@@ -24,7 +24,7 @@ module.exports = {
     },
     postTodoForUserId : ( userId, body ) => {
         axios({
-            url: config.typicodePlaceholderApiUrl + '/' + ENDPOINT_PHRASES.TODOS + '?userId=' + userId,
+            url: config.typicodePlaceholderApiUrl + '/' + ENDPOINT_PHRASES.TODOS,
             method: "post",
             data: body
            })
