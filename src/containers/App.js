@@ -43,6 +43,17 @@ class App extends Component {
               </div>
             </div>
           </li>
+          <li key='' className='todoItem'> {/* dać id z api */}
+            <div class='setInRow'>
+              <div class='todoContent'>asssssssssssssssssssssssssssssssssddddddddddddddddddddddddddddddddddddddddddddddddddmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm</div>
+              <div class='todoControlBox'>
+                <input type='checkbox' value=''></input>
+              </div>
+              <div class='todoControlBox'>
+                <button onclick=''>Delete</button>
+              </div>
+            </div>
+          </li>
         </ol>
       </div>
     )

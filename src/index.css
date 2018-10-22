@@ -38,9 +38,11 @@ code {
 }
 
 .todoContent {
+  width: 20em;
+  width: 48ch;
   max-width: 20em; 
   max-width: 48ch;
-  /* overflow-wrap: break-word; */
+  overflow-wrap: break-word; /* word break*/
 }
 
 .todoControlBox {
