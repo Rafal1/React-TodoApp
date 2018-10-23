@@ -3,27 +3,28 @@ import './../App.css'
 import UserIdInput from '../components/UserIdInput'
 import { connect } from 'react-redux'
 import typicodePlaceholderApiIntegration from '../services/typicodePlaceholderApiIntegration'
+import { changeUserId } from './../actions/userIdActions'
+
 
 class App extends Component {
   componentDidMount() {
-    this.props.dispatch(typicodePlaceholderApiIntegration.getTodosForUserId(1));
+    this.props.dispatch(typicodePlaceholderApiIntegration.getTodosForUserId(this.props.userId));
   }
-
+  // componentDidUpdate() {
+  //   this.props.dispatch(typicodePlaceholderApiIntegration.getTodosForUserId(this.props.userId));
+  // }
   render() {
-    //this.props. -> from dispatch
-    // console.log('todosOfUser: ' + JSON.stringify(td))
-
     const todos = this.props.todosOfUser.items.map((item) => {
       let deleteButton = null
       if (item.completed === true) {
-        deleteButton = <div class='todoControlBox'><button onClick=''>Delete</button></div>
+        deleteButton = <div className='todoControlBox'><button onClick={ () => {} }>Delete</button></div>
       }
       return (
         <li key={item.id} className='todoItem'> {/* dać id z api */}
-          <div class='setInRow'>
-            <div class='todoContent'>{item.title}</div>
-            <div class='todoControlBox'>
-              <input type='checkbox' defaultChecked={item.completed} onChange={this.props.isDone()}></input>
+          <div className='setInRow'>
+            <div className='todoContent'>{item.title}</div>
+            <div className='todoControlBox'>
+              <input type='checkbox' defaultChecked={item.completed} onChange={this.props.isTodoDone}></input>
             </div>
             {deleteButton}
           </div>
@@ -31,19 +32,18 @@ class App extends Component {
       )
     })
 
-
     return (
       <div className='mainAppClass'>
         <h2>TODO APP</h2>
         <UserIdInput
-          value=''//{this.props.value}
-          onBlur=''
+          value={this.props.userId}
+          onBlurEv={this.props.userIdInputOnBlur}
         />
         <div className='addNoteInput'>
-          <label for="todoContent">Add todo note: </label>
-          <br />
-          <div class='setInRow'>
-            <input type='text' id='todoContent' maxLength='48'></input><button onClick=''>Add</button>
+          <label htmlFor="todoContent">Add todo note: </label>
+          <br/>
+          <div className='setInRow'>
+            <input type='text' id='todoContent' maxLength='48'></input><button onClick={ () => {} }>Add</button>
           </div>
         </div>
         <ol className='todosList'>{todos}</ol>
@@ -54,10 +54,23 @@ class App extends Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    isDone: async () => {
-
+    isTodoDone: async () => {
     },
-    dispatch : dispatch
+    userIdInputOnBlur: (event) => {
+      if (event.target.value === '') {
+        dispatch(changeUserId(event.target.value))
+        return
+      }
+      let valueFromInput = parseInt(event.target.value)
+      if (!Number.isInteger(valueFromInput)) {
+        alert('userId must be Integer')
+        return
+      }
+      dispatch(changeUserId(valueFromInput))
+      console.log('valueFromInput: ' + valueFromInput)
+      dispatch(typicodePlaceholderApiIntegration.getTodosForUserId(valueFromInput))
+    },
+    dispatch: dispatch
   }
 }
 
@@ -68,7 +81,8 @@ const mapStateToProps = (state, ownProps) => {
   //   todosOfUser = typicodePlaceholderApiIntegration.getTodosForUserId(state.userId)
   // }
   return {
-    todosOfUser: state.todos
+    todosOfUser: state.todos,
+    userId: state.userId
   }
 
 }

@@ -14,6 +14,7 @@ const typicodePlaceholderApiIntegration = {
     getTodosForUserId : ( userId ) => {
         return (dispatch) => {
             dispatch(fetchTodosBegin())
+            console.log('request ' + userId)
             axios.get(config.typicodePlaceholderApiUrl + '/' + ENDPOINT_PHRASES.TODOS + '?' + PARAM_NAME.USER_ID + '=' + userId)
             .then(res => {
                 let response = res.data.slice(0, 10)
