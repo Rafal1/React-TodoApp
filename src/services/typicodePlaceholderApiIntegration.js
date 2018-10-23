@@ -1,16 +1,33 @@
 import axios from 'axios'
-const config = require('./../config');
+import { fetchTodosBegin, fetchTodosSuccess, fetchTodosError } from './../actions/todosActions'
+const config = require('./../config')
 
 const ENDPOINT_PHRASES = {
     TODOS : 'todos',
 }
 
-module.exports = {
+const PARAM_NAME = {
+    USER_ID : 'userId',
+}
+
+const typicodePlaceholderApiIntegration = {
     getTodosForUserId : ( userId ) => {
-        axios.get(config.typicodePlaceholderApiUrl + '/' + ENDPOINT_PHRASES.TODOS + '?userId=' + userId)
-        .then(res => {
-            return res.data
-        })
+        return (dispatch) => {
+            dispatch(fetchTodosBegin())
+            axios.get(config.typicodePlaceholderApiUrl + '/' + ENDPOINT_PHRASES.TODOS + '?' + PARAM_NAME.USER_ID + '=' + userId)
+            .then(res => {
+                let response = res.data
+                function filterFunc(value, index) {
+                    return value.userId === userId
+                }
+                const filteredRecords = response.filter(filterFunc)
+                return dispatch(fetchTodosSuccess(filteredRecords))
+            })
+            .catch(error => {
+                console.log(error)
+                dispatch(fetchTodosError(error))
+            })
+        }
     },
     putToDoWithId : ( todoId, body ) => {
         axios({
@@ -40,6 +57,5 @@ module.exports = {
     },
 }
 
-
-
+export default typicodePlaceholderApiIntegration
   

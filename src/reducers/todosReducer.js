@@ -1,20 +1,36 @@
-const todos = (state = [{ squares: Array(9).fill(null) }], action) => {
+import {
+  FETCH_TODOS_BEGIN,
+  FETCH_TODOS_SUCCESS,
+  FETCH_TODOS_FAILURE
+} from './../actions/todosActions'
+
+const initialState = {
+  items: [],
+  loading: false,
+  error: null
+};
+
+const todos = (state = initialState, action) => {
     switch (action.type) {
-      case 'CHANGE-USER-ID':
-        function filterFunc(value, index) {
-          return index <= action.stepNumber
+      case FETCH_TODOS_BEGIN:
+        return {
+          ...state,
+          loading: true,
+          error: null
         }
-        const historyMod = state.filter(filterFunc)
-        let sq = historyMod[historyMod.length - 1].squares.slice()
-        console.log('historyMod:' + JSON.stringify(historyMod))
-        sq[action.clickedSquare] = action.nextSymbol
-  
-        return [
-          ...historyMod,
-          {
-            squares: sq
-          }
-        ]
+      case FETCH_TODOS_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          items: action.payload.todos
+        }
+      case FETCH_TODOS_FAILURE:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload.error,
+          items: []
+        }
       default:
         return state
     }
