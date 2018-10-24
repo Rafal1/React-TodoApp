@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { fetchTodosBegin, fetchTodosSuccess, fetchTodosError } from './../actions/todosActions'
+import { addTodo, removeTodo, changeTodoStatus } from './../actions/todosActions'
+
 const config = require('./../config')
 
 const ENDPOINT_PHRASES = {
@@ -14,7 +16,6 @@ const typicodePlaceholderApiIntegration = {
     getTodosForUserId : ( userId ) => {
         return (dispatch) => {
             dispatch(fetchTodosBegin())
-            console.log('request ' + userId)
             axios.get(config.typicodePlaceholderApiUrl + '/' + ENDPOINT_PHRASES.TODOS + '?' + PARAM_NAME.USER_ID + '=' + userId)
             .then(res => {
                 let response = res.data.slice(0, 10)
@@ -31,24 +32,33 @@ const typicodePlaceholderApiIntegration = {
         }
     },
     putToDoWithId : ( todoId, body ) => {
-        axios({
-            url: config.typicodePlaceholderApiUrl + '/' + ENDPOINT_PHRASES.TODOS + '/' + todoId,
-            method: "put",
-            data: body
-           })
-        .then(res => {
-            return res.data
-        })
+        return (dispatch) => {
+            axios({
+                url: config.typicodePlaceholderApiUrl + '/' + ENDPOINT_PHRASES.TODOS + '/' + todoId,
+                method: "put",
+                data: body
+               })
+            .then(res => {
+                return res.data
+            })
+            .catch(error => {
+                console.log(error)
+                dispatch(fetchTodosError(error))
+            })
+        }        
     },
-    postTodoForUserId : ( userId, body ) => {
-        axios({
-            url: config.typicodePlaceholderApiUrl + '/' + ENDPOINT_PHRASES.TODOS,
-            method: "post",
-            data: body
-           })
-        .then(res => {
-            return res.data
-        })
+    postTodoForUserId : (body) => {
+        return (dispatch) => {
+            axios({
+                url: config.typicodePlaceholderApiUrl + '/' + ENDPOINT_PHRASES.TODOS,
+                method: "post",
+                data: body
+            })
+            .then(res => {
+                body.id = res.data.id
+                return dispatch(addTodo(body))
+            })
+        }
     },
     deleteTodoForUserId : ( todoId ) => {
         axios.delete(config.typicodePlaceholderApiUrl + '/' + ENDPOINT_PHRASES.TODOS + '/' + todoId)

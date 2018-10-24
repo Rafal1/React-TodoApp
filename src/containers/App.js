@@ -1,18 +1,21 @@
 import React, { Component } from 'react'
 import './../App.css'
 import UserIdInput from '../components/UserIdInput'
+import TodoInput from '../components/TodoInput'
 import { connect } from 'react-redux'
 import typicodePlaceholderApiIntegration from '../services/typicodePlaceholderApiIntegration'
 import { changeUserId } from './../actions/userIdActions'
+import { changeUserCurrentNote } from './../actions/userCurrentNoteActions'
+
+import { getState, createTodo } from './../helpers/stateHelper'
+const config = require('./../config')
 
 
 class App extends Component {
   componentDidMount() {
     this.props.dispatch(typicodePlaceholderApiIntegration.getTodosForUserId(this.props.userId));
   }
-  // componentDidUpdate() {
-  //   this.props.dispatch(typicodePlaceholderApiIntegration.getTodosForUserId(this.props.userId));
-  // }
+
   render() {
     const todos = this.props.todosOfUser.items.map((item) => {
       let deleteButton = null
@@ -20,7 +23,7 @@ class App extends Component {
         deleteButton = <div className='todoControlBox'><button onClick={ () => {} }>Delete</button></div>
       }
       return (
-        <li key={item.id} className='todoItem'> {/* dać id z api */}
+        <li key={item.id} className='todoItem'>
           <div className='setInRow'>
             <div className='todoContent'>{item.title}</div>
             <div className='todoControlBox'>
@@ -39,13 +42,10 @@ class App extends Component {
           value={this.props.userId}
           onBlurEv={this.props.userIdInputOnBlur}
         />
-        <div className='addNoteInput'>
-          <label htmlFor="todoContent">Add todo note: </label>
-          <br/>
-          <div className='setInRow'>
-            <input type='text' id='todoContent' maxLength='48'></input><button onClick={ () => {} }>Add</button>
-          </div>
-        </div>
+        <TodoInput
+          onClickEv={this.props.todoInputOnClick}
+          onChangeEv={this.props.todoInputOnChange}
+        />
         <ol className='todosList'>{todos}</ol>
       </div>
     )
@@ -56,33 +56,47 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     isTodoDone: async () => {
     },
-    userIdInputOnBlur: (event) => {
+    userIdInputOnBlur: async (event) => {
       if (event.target.value === '') {
         dispatch(changeUserId(event.target.value))
         return
       }
       let valueFromInput = parseInt(event.target.value)
       if (!Number.isInteger(valueFromInput)) {
-        alert('userId must be Integer')
+        alert('userId must be Integer') //enums dict
         return
       }
       dispatch(changeUserId(valueFromInput))
       console.log('valueFromInput: ' + valueFromInput)
       dispatch(typicodePlaceholderApiIntegration.getTodosForUserId(valueFromInput))
     },
+    todoInputOnClick: async (event) => {
+      const state = await getState(dispatch)      
+      if (state.userCurrentNote === '') {
+        alert('Todo can\'t be empty')
+        return
+      }
+      if (state.todos.items.length >= config.maxTodosDisplay) { 
+        alert(`There is no place for your note. You can have max. ${config.maxTodosDisplay} notes`)
+        return
+      }
+      let newTodo = createTodo(state.userCurrentNote, state.userId)
+      dispatch(typicodePlaceholderApiIntegration.postTodoForUserId(newTodo))
+      dispatch(changeUserCurrentNote(''))
+    },
+    todoInputOnChange: async (event) => {
+      //validate
+      dispatch(changeUserCurrentNote(event.target.value))
+    },
     dispatch: dispatch
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  // let todosOfUser = [] // state.todos
-
-  // if (state.userId >= 0) {
-  //   todosOfUser = typicodePlaceholderApiIntegration.getTodosForUserId(state.userId)
-  // }
   return {
     todosOfUser: state.todos,
-    userId: state.userId
+    userId: state.userId,
+    userCurrentNote: state.userCurrentNote
   }
 
 }
