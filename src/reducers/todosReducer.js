@@ -42,8 +42,8 @@ const todos = (state = initialState, action) => {
       case REMOVE_TODO:
         function filterFunc(value, index) {
           return value.id !== action.payload.todoId
-        } 
-        const filteredItems = state.filter(filterFunc)
+        }
+        const filteredItems = state.items.filter(filterFunc)
         return {
           ...state,
           items: filteredItems

@@ -20,7 +20,7 @@ class App extends Component {
     const todos = this.props.todosOfUser.items.map((item) => {
       let deleteButton = null
       if (item.completed === true) {
-        deleteButton = <div className='todoControlBox'><button onClick={ () => {} }>Delete</button></div>
+        deleteButton = <div className='todoControlBox'><button onClick={() => this.props.deleteTodo(item.id)}>Delete</button></div>
       }
       return (
         <li key={item.id} className='todoItem'>
@@ -45,6 +45,7 @@ class App extends Component {
         <TodoInput
           onClickEv={this.props.todoInputOnClick}
           onChangeEv={this.props.todoInputOnChange}
+          value={this.props.userCurrentNote}
         />
         <ol className='todosList'>{todos}</ol>
       </div>
@@ -54,7 +55,11 @@ class App extends Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    isTodoDone: async () => {
+    deleteTodo: async (todoId) => {
+      dispatch(typicodePlaceholderApiIntegration.deleteTodo(todoId))
+    },
+    isTodoDone: async (todoId) => {
+      dispatch(typicodePlaceholderApiIntegration.putToDoWithId(todoId))
     },
     userIdInputOnBlur: async (event) => {
       if (event.target.value === '') {
@@ -67,7 +72,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         return
       }
       dispatch(changeUserId(valueFromInput))
-      console.log('valueFromInput: ' + valueFromInput)
       dispatch(typicodePlaceholderApiIntegration.getTodosForUserId(valueFromInput))
     },
     todoInputOnClick: async (event) => {
