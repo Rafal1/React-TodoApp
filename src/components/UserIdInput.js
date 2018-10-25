@@ -1,7 +1,7 @@
 import React from 'react'
 
 const UserIdInput = ({ value, onBlurEv }) => (
-  <div>
+  <div className='inputMarginGap'>
     <label htmlFor="userIdInput">userId: </label>
     <br/>
     <input type="text" className="" value={value} id="userIdInput" onBlur={onBlurEv}  onChange={onBlurEv} /> {/*onblur event */}

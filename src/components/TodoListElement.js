@@ -1,23 +1,23 @@
 import React from 'react'
 
-import { Row, Content, ControlBox} from '../styledComponents/listStyle'
+import { Row, Content, ControlBox, TodoItem} from '../styledComponents/listStyle'
 
 
 const TodoListElement = ({ item, deleteTodo, isTodoDone }) => {
   let deleteButton = null
   if (item.completed === true) {
-    deleteButton = <div className='todoControlBox'><button onClick={() => deleteTodo(item.id)}>Delete</button></div>
+    deleteButton = <ControlBox><button onClick={() => deleteTodo(item.id)}>Delete</button></ControlBox>
   }
   return (
-    <li key={item.id} className='todoItem'>
+    <TodoItem key={item.id}>
       <Row>
         <Content>{item.title}</Content>
         <ControlBox>
           <input type='checkbox' defaultChecked={item.completed} onClick={() => isTodoDone(item.id)} onTouchEnd={ () => isTodoDone(item.id)} />
         </ControlBox>
-        <ControlBox>{deleteButton}</ControlBox>
+        {deleteButton}
       </Row>
-    </li>
+    </TodoItem>
   )
 }
 

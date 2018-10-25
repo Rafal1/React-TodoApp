@@ -19,4 +19,8 @@ const ControlBox = styled.section`
   margin-left: 1em;
 `;
 
-export {Row, Content, ControlBox}
+const TodoItem = styled.li`
+  margin-top: 2em;
+`;
+
+export {Row, Content, ControlBox, TodoItem}

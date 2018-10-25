@@ -1,7 +1,7 @@
 import React from 'react'
 
 const TodoInput = ({ onClickEv, onChangeEv, value }) => (
-  <div className='addNoteInput'>
+  <div className='inputMarginGap'>
     <label htmlFor="todoContent">Add todo note: </label>
     <br/>
     <div className='setInRow'>

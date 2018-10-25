@@ -22,11 +22,6 @@ code {
   flex-direction: column;
 }
 
-.addNoteInput {
-  margin-top: 2em;
-
-}
-
-.todoItem {
-  margin-top: 2em;
+.inputMarginGap {
+  margin-top: 1em;  
 }
