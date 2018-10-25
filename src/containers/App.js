@@ -2,12 +2,13 @@ import React, { Component } from 'react'
 import './../App.css'
 import UserIdInput from '../components/UserIdInput'
 import TodoInput from '../components/TodoInput'
+import TodoListElement from '../components/TodoListElement'
 import { connect } from 'react-redux'
 import typicodePlaceholderApiIntegration from '../services/typicodePlaceholderApiIntegration'
 import { changeUserId } from './../actions/userIdActions'
 import { changeUserCurrentNote } from './../actions/userCurrentNoteActions'
 
-import { getState, createTodo } from './../helpers/stateHelper'
+import { getState, createTodo } from './../helpers/generalHelper'
 const config = require('./../config')
 
 
@@ -18,20 +19,13 @@ class App extends Component {
 
   render() {
     const todos = this.props.todosOfUser.items.map((item) => {
-      let deleteButton = null
-      if (item.completed === true) {
-        deleteButton = <div className='todoControlBox'><button onClick={() => this.props.deleteTodo(item.id)}>Delete</button></div>
-      }
       return (
-        <li key={item.id} className='todoItem'>
-          <div className='setInRow'>
-            <div className='todoContent'>{item.title}</div>
-            <div className='todoControlBox'>
-              <input type='checkbox' defaultChecked={item.completed} onClick={() => this.props.isTodoDone(item.id)} onTouchEnd={ () => this.props.isTodoDone(item.id)} />
-            </div>
-            {deleteButton}
-          </div>
-        </li>
+        <TodoListElement 
+          key={item.id}
+          item={item}
+          isTodoDone={this.props.isTodoDone}
+          deleteTodo={this.props.deleteTodo}
+        />
       )
     })
 
@@ -60,7 +54,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     isTodoDone: async (todoId) => {
       const state = await getState(dispatch)
-      console.log('actionN')
       function findTodoWithId(value, index) {
         return value.id === todoId
       }

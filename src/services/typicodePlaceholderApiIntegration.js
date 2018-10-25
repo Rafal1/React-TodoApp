@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { fetchTodosBegin, fetchTodosSuccess, fetchTodosError } from './../actions/todosActions'
 import { addTodo, removeTodo, changeTodoStatus } from './../actions/todosActions'
+import { createGuid } from './../helpers/generalHelper'
 
 const config = require('./../config')
 
@@ -42,7 +43,8 @@ const typicodePlaceholderApiIntegration = {
                 return dispatch(changeTodoStatus(body))
             })
             .catch(error => {
-                console.log(error)
+                console.log('To do doesn\'t exists on the server. Change has been made locally. ' + error)
+                return dispatch(changeTodoStatus(body))
             })
         }
     },
@@ -53,20 +55,25 @@ const typicodePlaceholderApiIntegration = {
                 method: "post",
                 data: body
             })
-                .then(res => {
-                    body.id = res.data.id
-                    return dispatch(addTodo(body))
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+            .then(res => {
+                // body.id = res.data.id
+                body.id = createGuid()
+                return dispatch(addTodo(body))
+            })
+            .catch(error => {
+                console.log(error)
+            })
         }
     },
     deleteTodo: (todoId) => {
         return (dispatch) => {
             axios.delete(config.typicodePlaceholderApiUrl + '/' + ENDPOINT_PHRASES.TODOS + '/' + todoId)
             .then(res => {
-                return dispatch(removeTodo(parseInt(todoId)))
+                return dispatch(removeTodo(todoId))
+            })
+            .catch(error => {
+                console.log('To do doesn\'t exists on the server. Change has been made locally. ' + error)
+                dispatch(removeTodo(todoId))
             })
         }
     },
