@@ -27,30 +27,6 @@ code {
 
 }
 
-.setInRow {
-  display: flex;
-  flex-direction: row;
-}
-
-.todosList {
-  /* margin-top: 2em; */
-
-}
-
-.todoContent {
-  width: 20em;
-  width: 48ch;
-  max-width: 20em; 
-  max-width: 48ch;
-  overflow-wrap: break-word; /* word break*/
-}
-
-.todoControlBox {
-  border-left: 2px solid #999;
-  padding-left: 1em;
-  margin-left: 1em;
-}
-
 .todoItem {
   margin-top: 2em;
 }

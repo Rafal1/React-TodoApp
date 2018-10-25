@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import typicodePlaceholderApiIntegration from '../services/typicodePlaceholderApiIntegration'
 import { changeUserId } from './../actions/userIdActions'
 import { changeUserCurrentNote } from './../actions/userCurrentNoteActions'
-
+import { Title, Wrapper } from '../styledComponents/mainStyle'
 import { getState, createTodo } from './../helpers/generalHelper'
 const config = require('./../config')
 
@@ -31,7 +31,9 @@ class App extends Component {
 
     return (
       <div className='mainAppClass'>
-        <h2>TODO APP</h2>
+        <Wrapper>
+          <Title>TODO APP</Title>
+        </Wrapper>
         <UserIdInput
           value={this.props.userId}
           onBlurEv={this.props.userIdInputOnBlur}

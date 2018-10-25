@@ -19,4 +19,4 @@ function createGuid() {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 
-export { getState, createTodo, createGuid };
+export { getState, createTodo, createGuid }

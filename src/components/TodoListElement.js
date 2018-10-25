@@ -1,5 +1,8 @@
 import React from 'react'
 
+import { Row, Content, ControlBox} from '../styledComponents/listStyle'
+
+
 const TodoListElement = ({ item, deleteTodo, isTodoDone }) => {
   let deleteButton = null
   if (item.completed === true) {
@@ -7,13 +10,13 @@ const TodoListElement = ({ item, deleteTodo, isTodoDone }) => {
   }
   return (
     <li key={item.id} className='todoItem'>
-      <div className='setInRow'>
-        <div className='todoContent'>{item.title}</div>
-        <div className='todoControlBox'>
+      <Row>
+        <Content>{item.title}</Content>
+        <ControlBox>
           <input type='checkbox' defaultChecked={item.completed} onClick={() => isTodoDone(item.id)} onTouchEnd={ () => isTodoDone(item.id)} />
-        </div>
-        {deleteButton}
-      </div>
+        </ControlBox>
+        <ControlBox>{deleteButton}</ControlBox>
+      </Row>
     </li>
   )
 }
