@@ -23,4 +23,4 @@ const TodoItem = styled.li`
   margin-top: 2em;
 `;
 
-export {Row, Content, ControlBox, TodoItem}
+export { Row, Content, ControlBox, TodoItem }
