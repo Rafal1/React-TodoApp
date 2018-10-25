@@ -36,7 +36,7 @@ class App extends Component {
         </Wrapper>
         <UserIdInput
           value={this.props.userId}
-          onBlurEv={this.props.userIdInputOnBlur}
+          fetchDataEv={this.props.fetchDataEv}
         />
         <TodoInput
           onClickEv={this.props.todoInputOnClick}
@@ -64,7 +64,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         dispatch(typicodePlaceholderApiIntegration.changeTodoStatus(filteredTodos[i]))
       }
     },
-    userIdInputOnBlur: async (event) => {
+    fetchDataEv: async (event) => {
       if (event.target.value === '') {
         dispatch(changeUserId(event.target.value))
         return

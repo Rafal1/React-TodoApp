@@ -1,10 +1,10 @@
 import React from 'react'
 
-const UserIdInput = ({ value, onBlurEv }) => (
+const UserIdInput = ({ value, fetchDataEv }) => (
   <div className='inputMarginGap'>
     <label htmlFor="userIdInput">userId: </label>
     <br/>
-    <input type="text" className="" value={value} id="userIdInput" onBlur={onBlurEv}  onChange={onBlurEv} /> {/*onblur event */}
+    <input type="text" className="" value={value} id="userIdInput" onChange={fetchDataEv} />
   </div>
 )
 
