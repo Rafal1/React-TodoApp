@@ -50,15 +50,15 @@ const todos = (state = initialState, action) => {
         }
       case CHANGE_TODO_STATUS:
         function mapFunc(value, index) {
-          if (value.id === action.payload.todoId) {
+          if (value.id === action.payload.todo.id) {
             return {
               ...value,
-              completed: action.payload.completed
+              completed: !action.payload.todo.completed
             }
           }
           return value 
         }
-        const mappedItems = state.map(mapFunc)
+        const mappedItems = state.items.map(mapFunc)
         return {
           ...state,
           items: mappedItems

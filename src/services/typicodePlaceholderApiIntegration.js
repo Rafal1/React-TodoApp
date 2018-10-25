@@ -31,19 +31,19 @@ const typicodePlaceholderApiIntegration = {
                 })
         }
     },
-    putToDoWithId: (todoId, body) => {
+    changeTodoStatus: (body) => {
         return (dispatch) => {
             axios({
-                url: config.typicodePlaceholderApiUrl + '/' + ENDPOINT_PHRASES.TODOS + '/' + todoId,
+                url: config.typicodePlaceholderApiUrl + '/' + ENDPOINT_PHRASES.TODOS + '/' + body.id,
                 method: "put",
                 data: body
             })
-                .then(res => {
-                    return dispatch(changeTodoStatus(body.id, body.completed))
-                })
-                .catch(error => {
-                    console.log(error)
-                })
+            .then(res => {
+                return dispatch(changeTodoStatus(body))
+            })
+            .catch(error => {
+                console.log(error)
+            })
         }
     },
     postTodoForUserId: (body) => {

@@ -27,7 +27,7 @@ class App extends Component {
           <div className='setInRow'>
             <div className='todoContent'>{item.title}</div>
             <div className='todoControlBox'>
-              <input type='checkbox' defaultChecked={item.completed} onChange={this.props.isTodoDone}></input>
+              <input type='checkbox' defaultChecked={item.completed} onClick={() => this.props.isTodoDone(item.id)} onTouchEnd={ () => this.props.isTodoDone(item.id)} />
             </div>
             {deleteButton}
           </div>
@@ -59,7 +59,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(typicodePlaceholderApiIntegration.deleteTodo(todoId))
     },
     isTodoDone: async (todoId) => {
-      dispatch(typicodePlaceholderApiIntegration.putToDoWithId(todoId))
+      const state = await getState(dispatch)
+      console.log('actionN')
+      function findTodoWithId(value, index) {
+        return value.id === todoId
+      }
+      let filteredTodos = state.todos.items.filter(findTodoWithId)
+      for (let i = 0; i < filteredTodos.length; i++) {
+        dispatch(typicodePlaceholderApiIntegration.changeTodoStatus(filteredTodos[i]))
+      }
     },
     userIdInputOnBlur: async (event) => {
       if (event.target.value === '') {
@@ -75,12 +83,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(typicodePlaceholderApiIntegration.getTodosForUserId(valueFromInput))
     },
     todoInputOnClick: async (event) => {
-      const state = await getState(dispatch)      
+      const state = await getState(dispatch)
       if (state.userCurrentNote === '') {
         alert('Todo can\'t be empty')
         return
       }
-      if (state.todos.items.length >= config.maxTodosDisplay) { 
+      if (state.todos.items.length >= config.maxTodosDisplay) {
         alert(`There is no place for your note. You can have max. ${config.maxTodosDisplay} notes`)
         return
       }
