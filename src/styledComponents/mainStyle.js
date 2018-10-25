@@ -20,4 +20,4 @@ const MainApp = styled.section`
     flex-direction: column;
 `;
 
-export { Title, Wrapper, MainApp}
+export { Title, Wrapper, MainApp }

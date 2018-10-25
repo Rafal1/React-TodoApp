@@ -20,7 +20,7 @@ class App extends Component {
   render() {
     const todos = this.props.todosOfUser.items.map((item) => {
       return (
-        <TodoListElement 
+        <TodoListElement
           key={item.id}
           item={item}
           isTodoDone={this.props.isTodoDone}

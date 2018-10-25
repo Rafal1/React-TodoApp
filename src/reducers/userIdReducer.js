@@ -5,12 +5,12 @@ import {
 const initialState = 0
 
 const userId = (state = initialState, action) => {
-    switch (action.type) {
-      case CHANGE_USER_ID:
-        return action.payload.userId
-      default:
-        return state
-    }
+  switch (action.type) {
+    case CHANGE_USER_ID:
+      return action.payload.userId
+    default:
+      return state
   }
-  
+}
+
 export default userId
